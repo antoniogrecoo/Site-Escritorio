@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Jurídico - Pedro Carvalho Advocacia</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Estilos idênticos ao arquivo principal - mantendo a consistência */
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --text: #333;
+            --text-light: #7f8c8d;
+            --white: #fff;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--light);
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--primary);
+            transition: var(--transition);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--secondary);
+            color: var(--white);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 14px;
+        }
+
+        .btn:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-accent {
+            background-color: var(--accent);
+        }
+
+        .btn-accent:hover {
+            background-color: #c0392b;
+        }
+
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 36px;
+            color: var(--primary);
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 3px;
+            background-color: var(--secondary);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .section-title p {
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            color: var(--secondary);
+            margin-right: 10px;
+            font-size: 28px;
+        }
+
+        .nav-links {
+            display: flex;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            color: var(--primary);
+            font-weight: 600;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background-color: var(--secondary);
+            bottom: 0;
+            left: 0;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: var(--primary);
+            margin: 5px;
+            transition: var(--transition);
+        }
+
+        /* Blog Content */
+        .blog-main {
+            padding-top: 120px;
+            background-color: var(--white);
+        }
+
+        .blog-articles {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .article-card {
+            background-color: var(--light);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .article-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .article-img {
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .article-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .article-card:hover .article-img img {
+            transform: scale(1.1);
+        }
+
+        .article-content {
+            padding: 30px;
+        }
+
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .article-content h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .article-content p {
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+
+        .article-content a {
+            color: var(--secondary);
+            font-weight: 600;
+        }
+
+        .article-content a:hover {
+            text-decoration: underline;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 50px;
+        }
+
+        .pagination a {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--white);
+            border-radius: 5px;
+            color: var(--primary);
+            font-weight: 600;
+            box-shadow: var(--shadow);
+        }
+
+        .pagination a.active,
+        .pagination a:hover {
+            background-color: var(--secondary);
+            color: var(--white);
+        }
+
+        /* Sidebar */
+        .blog-container {
+            display: flex;
+            gap: 40px;
+        }
+
+        .blog-content {
+            flex: 2;
+        }
+
+        .sidebar {
+            flex: 1;
+        }
+
+        .sidebar-widget {
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        .widget-title {
+            font-size: 20px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light);
+            color: var(--primary);
+        }
+
+        .categories-list li {
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--light);
+        }
+
+        .categories-list a {
+            color: var(--text);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .categories-list a:hover {
+            color: var(--secondary);
+        }
+
+        .categories-list span {
+            background-color: var(--light);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+        }
+
+        .popular-posts .post {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .popular-posts .post-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .popular-posts .post-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .popular-posts .post-title {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .popular-posts .post-date {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tags a {
+            background-color: var(--light);
+            color: var(--text);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .tags a:hover {
+            background-color: var(--secondary);
+            color: var(--white);
+        }
+
+        /* Responsivo */
+        @media (max-width: 992px) {
+            .blog-container {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                position: absolute;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background-color: var(--white);
+                flex-direction: column;
+                align-items: center;
+                padding: 20px 0;
+                box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+                transform: translateY(-150%);
+                transition: var(--transition);
+                z-index: 999;
+            }
+
+            .nav-links.active {
+                transform: translateY(0);
+            }
+
+            .nav-links li {
+                margin: 15px 0;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .hamburger.active div:nth-child(1) {
+                transform: rotate(-45deg) translate(-5px, 6px);
+            }
+
+            .hamburger.active div:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active div:nth-child(3) {
+                transform: rotate(45deg) translate(-5px, -6px);
+            }
+
+            .section-title h2 {
+                font-size: 30px;
+            }
+        }
+
+        .search-form {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px 0 0 5px;
+            font-family: inherit;
+        }
+
+        .search-button {
+            padding: 10px 20px;
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+
+        .active-category {
+            font-weight: bold;
+            color: var(--secondary) !important;
+        }
+
+        .active-page {
+            background-color: var(--secondary) !important;
+            color: white !important;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header id="header">
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-balance-scale"></i>
+                <span>Pedro Carvalho</span>
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="index.html#about">Sobre</a></li>
+                    <li><a href="index.html#services">Áreas de Atuação</a></li>
+                    <li><a href="index.html#team">Equipe</a></li>
+                    <li><a href="index.html#testimonials">Depoimentos</a></li>
+                    <li><a href="blog.html" class="active">Blog Jurídico</a></li>
+                    <li><a href="index.html#contact">Contato</a></li>
+                </ul>
+                <div class="hamburger">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Blog Main Content -->
+    <main class="blog-main">
+        <section class="section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Blog Jurídico</h2>
+                    <p>Artigos e notícias sobre Direito do Consumidor, Trabalhista, Criminal e outras áreas do Direito
+                    </p>
+                </div>
+
+                <div class="blog-container">
+                    <div class="blog-content">
+                        <div class="blog-articles">
+                            <!-- Artigo 1 -->
+                            <article class="article-card">
+                                <div class="article-img">
+                                    <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                                        alt="Direito do Consumidor">
+                                </div>
+                                <div class="article-content">
+                                    <div class="article-meta">
+                                        <span><i class="far fa-calendar-alt"></i> 15 Jun 2023</span>
+                                        <span><i class="far fa-user"></i> Dra. Ana Lima</span>
+                                    </div>
+                                    <h3>Seus Direitos ao Comprar Produtos pela Internet</h3>
+                                    <p>Com o crescimento do comércio eletrônico, é fundamental conhecer os direitos do
+                                        consumidor nas compras online. Neste artigo, explicamos como proceder em casos
+                                        de problemas com entregas, produtos diferentes do anunciado e arrependimento de
+                                        compra...</p>
+                                    <a href="artigo-detalhe.html" class="btn">Ler Artigo Completo</a>
+                                </div>
+                            </article>
+
+                            <!-- Artigo 2 -->
+                            <article class="article-card">
+                                <div class="article-img">
+                                    <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                                        alt="Direito Trabalhista">
+                                </div>
+                                <div class="article-content">
+                                    <div class="article-meta">
+                                        <span><i class="far fa-calendar-alt"></i> 02 Jul 2023</span>
+                                        <span><i class="far fa-user"></i> Dr. Carlos Mendes</span>
+                                    </div>
+                                    <h3>Home Office: Direitos e Deveres do Trabalhador</h3>
+                                    <p>A modalidade de trabalho remoto trouxe novas questões jurídicas tanto para
+                                        empregadores quanto para empregados. Neste artigo, abordamos os principais
+                                        direitos trabalhistas no regime de home office, incluindo jornada de trabalho,
+                                        equipamentos e adicional...</p>
+                                    <a href="artigo-detalhe.html" class="btn">Ler Artigo Completo</a>
+                                </div>
+                            </article>
+
+                            <!-- Artigo 3 -->
+                            <article class="article-card">
+                                <div class="article-img">
+                                    <img src="https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                                        alt="Direito Criminal">
+                                </div>
+                                <div class="article-content">
+                                    <div class="article-meta">
+                                        <span><i class="far fa-calendar-alt"></i> 20 Jul 2023</span>
+                                        <span><i class="far fa-user"></i> Dra. Fernanda Oliveira</span>
+                                    </div>
+                                    <h3>O Que Fazer Se Você For Vítima de um Crime Virtual?</h3>
+                                    <p>Com o aumento dos crimes digitais, é importante saber como agir quando se é
+                                        vítima de golpes, fraudes ou invasão de privacidade online. Este artigo explica
+                                        os passos para registrar um boletim de ocorrência, coletar provas e buscar
+                                        indenizações...</p>
+                                    <a href="artigo-detalhe.html" class="btn">Ler Artigo Completo</a>
+                                </div>
+                            </article>
+
+                            <!-- Artigo 4 -->
+                            <article class="article-card">
+                                <div class="article-img">
+                                    <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                                        alt="Direito Criminal">
+                                </div>
+                                <div class="article-content">
+                                    <div class="article-meta">
+                                        <span><i class="far fa-calendar-alt"></i> 05 Ago 2023</span>
+                                        <span><i class="far fa-user"></i> Dr. Bernardo Neto</span>
+                                    </div>
+                                    <h3>Novas Leis no Direito Criminal: O Que Mudou em 2023?</h3>
+                                    <p>O ano de 2023 trouxe importantes alterações na legislação penal brasileira. Neste
+                                        artigo, analisamos as principais mudanças nas leis sobre crimes digitais, posse
+                                        de armas e regime semiaberto, e como elas afetam tanto acusados quanto
+                                        vítimas...</p>
+                                    <a href="artigo-detalhe.html" class="btn">Ler Artigo Completo</a>
+                                </div>
+                            </article>
+
+                            <!-- Artigo 5 -->
+                            <article class="article-card">
+                                <div class="article-img">
+                                    <img src="https://images.unsplash.com/photo-1521791055366-0d553872125f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80"
+                                        alt="Direito Trabalhista">
+                                </div>
+                                <div class="article-content">
+                                    <div class="article-meta">
+                                        <span><i class="far fa-calendar-alt"></i> 18 Ago 2023</span>
+                                        <span><i class="far fa-user"></i> Dr. Manoel Pedro</span>
+                                    </div>
+                                    <h3>Rescisão Indireta: Quando o Trabalhador Pode Pedir Demissão com Direitos</h3>
+                                    <p>A rescisão indireta é uma ferramenta importante para proteger trabalhadores em
+                                        situações de irregularidades por parte do empregador. Este artigo explica em
+                                        quais situações é possível pedir demissão e ainda receber todos os direitos
+                                        trabalhistas...</p>
+                                    <a href="artigo-detalhe.html" class="btn">Ler Artigo Completo</a>
+                                </div>
+                            </article>
+
+                            <!-- Artigo 6 -->
+                            <article class="article-card">
+                                <div class="article-img">
+                                    <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                                        alt="Direito do Consumidor">
+                                </div>
+                                <div class="article-content">
+                                    <div class="article-meta">
+                                        <span><i class="far fa-calendar-alt"></i> 01 Set 2023</span>
+                                        <span><i class="far fa-user"></i> Dr. Pedro Carvalho</span>
+                                    </div>
+                                    <h3>Cobranças Indevidas: Como Agir Quando Você é Cobrado por Algo que Não Deve</h3>
+                                    <p>Receber cobranças indevidas é mais comum do que se imagina. Neste artigo,
+                                        explicamos os passos para contestar cobranças abusivas de empresas de telefonia,
+                                        bancos e serviços em geral, e como buscar a devolução dos valores pagos
+                                        indevidamente...</p>
+                                    <a href="artigo-detalhe.html" class="btn">Ler Artigo Completo</a>
+                                </div>
+                            </article>
+                        </div>
+
+                        <div class="pagination" id="pagination">
+                            <a href="#" class="page-link active-page" data-page="1">1</a>
+                            <a href="#" class="page-link" data-page="2">2</a>
+                        </div>
+
+
+                        <aside class="sidebar">
+                            <div class="sidebar-widget">
+                                <h3 class="widget-title">Buscar Artigos</h3>
+                                <form id="search-form" class="search-form">
+                                    <input type="text" id="search-input" class="search-input form-control"
+                                        placeholder="Digite sua busca...">
+                                    <button type="submit" class="search-button">Buscar</button>
+                                </form>
+                            </div>
+
+                            <div class="sidebar-widget">
+                                <h3 class="widget-title">Categorias</h3>
+                                <ul class="categories-list" id="categories-list">
+                                    <li><a href="#" class="category-link active-category" data-category="all">Todas
+                                            <span id="count-all">6</span></a></li>
+                                    <li><a href="#" class="category-link" data-category="consumidor">Direito do
+                                            Consumidor
+                                            <span id="count-consumidor">2</span></a></li>
+                                    <li><a href="#" class="category-link" data-category="trabalhista">Direito
+                                            Trabalhista
+                                            <span id="count-trabalhista">2</span></a></li>
+                                    <li><a href="#" class="category-link" data-category="criminal">Direito Criminal
+                                            <span id="count-criminal">2</span></a></li>
+                                </ul>
+                            </div>
+
+
+                            <div class="sidebar-widget">
+                                <h3 class="widget-title">Artigos Populares</h3>
+                                <div class="popular-posts">
+                                    <div class="post">
+                                        <div class="post-img">
+                                            <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                                                alt="Post 1">
+                                        </div>
+                                        <div class="post-content">
+                                            <a href="#" class="post-title">Seus Direitos ao Comprar Produtos pela
+                                                Internet</a>
+                                            <div class="post-date">15 Jun 2023</div>
+                                        </div>
+                                    </div>
+                                    <div class="post">
+                                        <div class="post-img">
+                                            <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                                                alt="Post 2">
+                                        </div>
+                                        <div class="post-content">
+                                            <a href="#" class="post-title">Home Office: Direitos e Deveres do
+                                                Trabalhador</a>
+                                            <div class="post-date">02 Jul 2023</div>
+                                        </div>
+                                    </div>
+                                    <div class="post">
+                                        <div class="post-img">
+                                            <img src="https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                                                alt="Post 3">
+                                        </div>
+                                        <div class="post-content">
+                                            <a href="#" class="post-title">O Que Fazer Se Você For Vítima de um Crime
+                                                Virtual?</a>
+                                            <div class="post-date">20 Jul 2023</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="sidebar-widget">
+                                <h3 class="widget-title">Tags</h3>
+                                <div class="tags">
+                                    <a href="#">Consumidor</a>
+                                    <a href="#">Trabalhista</a>
+                                    <a href="#">Criminal</a>
+                                    <a href="#">Digital</a>
+                                    <a href="#">Leis</a>
+                                    <a href="#">Jurisprudência</a>
+                                    <a href="#">Processo</a>
+                                    <a href="#">Advocacia</a>
+                                </div>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <!-- Footer -->
+
+
+    <script>
+
+        // Menu Mobile
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        const links = document.querySelectorAll('.nav-links li');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        });
+
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                hamburger.classList.remove('active');
+            });
+        });
+
+        // Scroll suave
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Header scroll
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Marcar link ativo no menu
+        const currentPage = window.location.pathname.split('/').pop();
+        const menuLinks = document.querySelectorAll('.nav-links a');
+
+        menuLinks.forEach(link => {
+            const linkPage = link.getAttribute('href');
+            if (currentPage === linkPage) {
+                link.classList.add('active');
+            }
+        });
+
+         // Dados dos artigos (simulando um banco de dados)
+        const articles = [
+            {
+                id: 1,
+                title: "Seus Direitos ao Comprar Produtos pela Internet",
+                category: "consumidor",
+                date: "15 Jun 2023",
+                author: "Dra. Ana Lima",
+                image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+                content: "Artigo completo sobre direitos do consumidor..."
+            },
+            {
+                id: 2,
+                title: "Home Office: Direitos e Deveres do Trabalhador",
+                category: "trabalhista",
+                date: "02 Jul 2023",
+                author: "Dr. Carlos Mendes",
+                image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+                content: "Artigo completo sobre home office..."
+            },
+            {
+                id: 3,
+                title: "O Que Fazer Se Você For Vítima de um Crime Virtual?",
+                category: "criminal",
+                date: "20 Jul 2023",
+                author: "Dra. Fernanda Oliveira",
+                image: "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+                content: "Artigo completo sobre crimes virtuais..."
+            },
+            {
+                id: 4,
+                title: "Novas Leis no Direito Criminal: O Que Mudou em 2023?",
+                category: "criminal",
+                date: "05 Ago 2023",
+                author: "Dr. Bernardo Neto",
+                image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+                content: "Artigo completo sobre novas leis..."
+            },
+            {
+                id: 5,
+                title: "Rescisão Indireta: Quando o Trabalhador Pode Pedir Demissão com Direitos",
+                category: "trabalhista",
+                date: "18 Ago 2023",
+                author: "Dr. Manoel Pedro",
+                image: "https://images.unsplash.com/photo-1521791055366-0d553872125f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80",
+                content: "Artigo completo sobre rescisão indireta..."
+            },
+            {
+                id: 6,
+                title: "Cobranças Indevidas: Como Agir Quando Você é Cobrado por Algo que Não Deve",
+                category: "consumidor",
+                date: "01 Set 2023",
+                author: "Dr. Pedro Carvalho",
+                image: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+                content: "Artigo completo sobre cobranças indevidas..."
+            }
+        ];
+
+        // Função para renderizar artigos
+        function renderArticles(filteredArticles = articles, page = 1) {
+            const articlesPerPage = 3;
+            const startIndex = (page - 1) * articlesPerPage;
+            const paginatedArticles = filteredArticles.slice(startIndex, startIndex + articlesPerPage);
+            
+            const articlesContainer = document.querySelector('.blog-articles');
+            articlesContainer.innerHTML = '';
+            
+            paginatedArticles.forEach(article => {
+                const articleHTML = `
+                    <article class="article-card" data-id="${article.id}" data-category="${article.category}">
+                        <div class="article-img">
+                            <img src="${article.image}" alt="${article.title}">
+                        </div>
+                        <div class="article-content">
+                            <div class="article-meta">
+                                <span><i class="far fa-calendar-alt"></i> ${article.date}</span>
+                                <span><i class="far fa-user"></i> ${article.author}</span>
+                            </div>
+                            <h3>${article.title}</h3>
+                            <p>${article.content.substring(0, 150)}...</p>
+                            <a href="#" class="btn read-more" data-id="${article.id}">Ler Artigo Completo</a>
+                        </div>
+                    </article>
+                `;
+                articlesContainer.innerHTML += articleHTML;
+            });
+            
+            // Atualizar paginação
+            updatePagination(filteredArticles.length, page);
+        }
+        
+        // Função para atualizar paginação
+        function updatePagination(totalArticles, currentPage) {
+            const totalPages = Math.ceil(totalArticles / 3);
+            const paginationContainer = document.getElementById('pagination');
+            paginationContainer.innerHTML = '';
+            
+            for (let i = 1; i <= totalPages; i++) {
+                paginationContainer.innerHTML += `
+                    <a href="#" class="page-link ${i === currentPage ? 'active-page' : ''}" data-page="${i}">${i}</a>
+                `;
+            }
+        }
+        
+        // Função para mostrar artigo completo
+        function showFullArticle(articleId) {
+            const article = articles.find(a => a.id == articleId);
+            if (article) {
+                // Aqui você pode criar uma nova página ou mostrar em um modal
+                // Vou mostrar um alerta como exemplo, mas na prática você deve redirecionar para uma página de artigo
+                alert(`Mostrando artigo completo: ${article.title}\n\n${article.content}`);
+                // Ou redirecionar para: window.location.href = `artigo.html?id=${articleId}`;
+            }
+        }
+        
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            // Renderizar artigos iniciais
+            renderArticles();
+            
+            // Busca de artigos
+            document.getElementById('search-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const searchTerm = document.getElementById('search-input').value.toLowerCase();
+                const filtered = articles.filter(article => 
+                    article.title.toLowerCase().includes(searchTerm) || 
+                    article.content.toLowerCase().includes(searchTerm)
+                );
+                renderArticles(filtered);
+            });
+            
+            // Filtro por categoria
+            document.querySelectorAll('.category-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const category = e.target.dataset.category;
+                    
+                    // Ativar categoria selecionada
+                    document.querySelectorAll('.category-link').forEach(l => l.classList.remove('active-category'));
+                    e.target.classList.add('active-category');
+                    
+                    // Filtrar artigos
+                    const filtered = category === 'all' 
+                        ? articles 
+                        : articles.filter(article => article.category === category);
+                    renderArticles(filtered);
+                });
+            });
+            
+            // Paginação
+            document.getElementById('pagination').addEventListener('click', (e) => {
+                if (e.target.classList.contains('page-link')) {
+                    e.preventDefault();
+                    const page = parseInt(e.target.dataset.page);
+                    renderArticles(getCurrentFilteredArticles(), page);
+                }
+            });
+            
+            // Ler artigo completo
+            document.addEventListener('click', (e) => {
+                if (e.target.classList.contains('read-more')) {
+                    e.preventDefault();
+                    const articleId = e.target.dataset.id;
+                    showFullArticle(articleId);
+                }
+            });
+        });
+        
+        // Função auxiliar para obter os artigos atualmente filtrados
+        function getCurrentFilteredArticles() {
+            const activeCategory = document.querySelector('.category-link.active-category').dataset.category;
+            return activeCategory === 'all' 
+                ? articles 
+                : articles.filter(article => article.category === activeCategory);
+        }
+    </script>
+</body>
+
+</html>
